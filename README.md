@@ -1,4 +1,4 @@
-Here's a `README.md` tailored for your project, including instructions for setting up Docker Compose and general setup steps:
+
 
 ```markdown
 # My Blog CMS
