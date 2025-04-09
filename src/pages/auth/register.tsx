@@ -1,4 +1,5 @@
-import { RegisterForm } from '@/components/auth/register-form'
+import { RegisterForm } from "@/components/auth/register-form";
+import Head from "next/head";
 
 /**
  * Public page that renders the registration form.
@@ -7,8 +8,14 @@ import { RegisterForm } from '@/components/auth/register-form'
  */
 export default function SignUpPage() {
   return (
-    <main className="flex min-h-[calc(100vh-200px)] items-center justify-center">
-      <RegisterForm />
-    </main>
-  )
+    <>
+      <Head>
+        <title>Sign Up</title>
+        <meta name="description" content="Create a new account" />
+      </Head>
+      <main className="flex min-h-[calc(100vh-200px)] items-center justify-center">
+        <RegisterForm />
+      </main>
+    </>
+  );
 }

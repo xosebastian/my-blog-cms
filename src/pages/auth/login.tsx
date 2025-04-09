@@ -1,4 +1,5 @@
-import { LoginForm } from '@/components/auth/login-form'
+import { LoginForm } from "@/components/auth/login-form";
+import Head from "next/head";
 
 /**
  * Public page that renders the login form.
@@ -8,8 +9,15 @@ import { LoginForm } from '@/components/auth/login-form'
  */
 export default function SignInPage() {
   return (
-    <main className="flex min-h-[calc(100vh-200px)] items-center justify-center">
-      <LoginForm />
-    </main>
-  )
+    <>
+      <Head>
+        <title>Sign In</title>
+        <meta name="description" content="Sign in to your account" />
+      </Head>
+
+      <main className="flex min-h-[calc(100vh-200px)] items-center justify-center">
+        <LoginForm />
+      </main>
+    </>
+  );
 }

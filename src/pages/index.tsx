@@ -1,10 +1,11 @@
-'use client';
+"use client";
 
-import { useSearchParams, useRouter } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
-import AuthorList from '@/components/author-list';
-import { fetchAuthors } from '@/lib/authors/fetchAuthors';
-import { Button } from '@/components/ui/button';
+import { useSearchParams, useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import AuthorList from "@/components/author-list";
+import { fetchAuthors } from "@/lib/authors/fetchAuthors";
+import { Button } from "@/components/ui/button";
+import Head from "next/head";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -21,14 +22,14 @@ export default function Home() {
   const router = useRouter();
 
   // Read the current page from the URL query string
-  const pageParam = searchParams.get('page');
+  const pageParam = searchParams.get("page");
   const currentPage = pageParam ? Number.parseInt(pageParam) : 1;
 
   /**
    * Fetches authors using React Query with pagination.
    */
   const { data, error, isLoading } = useQuery({
-    queryKey: ['authors', currentPage],
+    queryKey: ["authors", currentPage],
     queryFn: () => fetchAuthors(currentPage, ITEMS_PER_PAGE),
     staleTime: 5000, // Avoid refetching within 5 seconds
   });
@@ -57,13 +58,19 @@ export default function Home() {
   }
 
   return (
-    <div className="space-y-8">
-      <AuthorList
-        authors={data?.authors || []}
-        totalPages={data?.totalPages || 1}
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-      />
-    </div>
+    <>
+      <Head>
+        <title>My Blog CMS</title>
+        <meta name="description" content="List of authors" />
+      </Head>
+      <div className="space-y-8">
+        <AuthorList
+          authors={data?.authors || []}
+          totalPages={data?.totalPages || 1}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+        />
+      </div>
+    </>
   );
 }
