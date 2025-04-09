@@ -97,12 +97,12 @@ export default function ArticleViewPage() {
               ))}
             </div>
           </CardContent>
-
+{/* 
           <CardFooter className="flex justify-between">
             <Link href={`/articles/${article.authorId}`}>
               <Button variant="outline">More from {article.authorName}</Button>
             </Link>
-          </CardFooter>
+          </CardFooter>*/}
         </Card>
       </div>
     </>
