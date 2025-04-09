@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:6
+    container_name: mycms-mongo
+    restart: always
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: mycms
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mycms-app
+    ports:
+      - '3000:3000'
+    depends_on:
+      - mongo
+    environment:
+      MONGODB_URI: mongodb://mongo:27017/mycms
+      NEXT_PUBLIC_BETTERAUTH_PROJECT_ID: your_project_id_here
+      BETTERAUTH_API_KEY: your_api_key_here
+    volumes:
+      - .:/app
+    command: npm run dev
+
+volumes:
+  mongo_data:
