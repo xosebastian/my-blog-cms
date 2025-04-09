@@ -41,7 +41,7 @@ export default function AuthorArticlesPage() {
    * @param page - The page number to navigate to
    */
   const handlePageChange = (page: number) => {
-    router.push(`/articles/${authorId}?page=${page}`);
+    router.push(`/articles/author/${authorId}?page=${page}`);
   };
 
   if (isLoading) {
