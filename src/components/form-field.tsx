@@ -3,11 +3,11 @@ import { Input } from "@/components/ui/input";
 import { UseFormRegister, FieldValues, Path } from "react-hook-form";
 
 interface FormFieldProps<T extends FieldValues> {
-  id: Path<T>; // Asegura que 'id' es una clave válida de T
+  id: Path<T>;
   label: string;
   type: string;
   error?: string;
-  register: UseFormRegister<T>; // Usamos el register según el tipo de formulario
+  register: UseFormRegister<T>;
 }
 
 export function FormField<T extends FieldValues>({

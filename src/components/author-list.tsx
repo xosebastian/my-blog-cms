@@ -20,14 +20,6 @@ type AuthorListProps = {
   onPageChange: (page: number) => void;
 };
 
-/**
- * Component that displays a list of authors in cards.
- *
- * @param authors - List of authors to display.
- * @param totalPages - Total number of available pages for pagination.
- * @param currentPage - The current page number.
- * @param onPageChange - Function to handle page change.
- */
 export default function AuthorList({
   authors,
   totalPages,
@@ -38,15 +30,12 @@ export default function AuthorList({
     <div className="space-y-4">
       <h2 className="text-2xl font-bold">Authors</h2>
 
-      {/* Responsive grid of author cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {authors.map((author) => (
           <Card key={author.id} className="flex flex-col">
             <div className="relative aspect-square w-full overflow-hidden">
-              {/* Author's image */}
-
               <Image
-                src={author.image || "/placeholder.svg"} // Default image in case there is no image
+                src={author.image || "/placeholder.svg"}
                 alt={`Photo of ${author.name}`}
                 className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
                 fill
@@ -76,7 +65,6 @@ export default function AuthorList({
         ))}
       </div>
 
-      {/* Pagination controls */}
       {totalPages > 1 && (
         <div className="flex items-center justify-center gap-2">
           <Button

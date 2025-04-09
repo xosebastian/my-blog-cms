@@ -9,6 +9,7 @@ import ArticleList from "@/components/article-list";
 import { fetchUserArticles } from "@/lib/articles/fetch-user-articles";
 import { deleteArticle } from "@/lib/articles/delete";
 import { toast } from "sonner";
+import Head from "next/head";
 
 /**
  * Page that displays all articles created by the authenticated user.
@@ -76,32 +77,38 @@ export default function MyArticlesPage() {
   }
 
   return (
-    <div className="space-y-8">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">My Articles</h1>
-        <Link href="/articles/create">
-          <Button>
-            <PlusCircle className="mr-2 h-4 w-4" />
-            Create Article
-          </Button>
-        </Link>
-      </div>
+    <>
+      <Head>
+        <title>My Articles</title>
+        <meta name="description" content="Manage your articles here." />
+      </Head>
+      <div className="space-y-8">
+        <div className="flex items-center justify-between">
+          <h1 className="text-3xl font-bold">My Articles</h1>
+          <Link href="/articles/create">
+            <Button>
+              <PlusCircle className="mr-2 h-4 w-4" />
+              Create Article
+            </Button>
+          </Link>
+        </div>
 
-      {/* Render the list of articles */}
-      <ArticleList
-        articles={data?.articles || []}
-        totalPages={data?.totalPages || 0}
-        currentPage={data?.currentPage || 1}
-        onPageChange={handlePageChange}
-        showAuthor={true}
-        title="Articles"
-        onEdit={(id) => router.push(`/articles/edit/${id}`)}
-        onDelete={(id) => {
-          if (confirm("Are you sure you want to delete this article?")) {
-            removeArticle(id);
-          }
-        }}
-      />
-    </div>
+        {/* Render the list of articles */}
+        <ArticleList
+          articles={data?.articles || []}
+          totalPages={data?.totalPages || 0}
+          currentPage={data?.currentPage || 1}
+          onPageChange={handlePageChange}
+          showAuthor={true}
+          title="Articles"
+          onEdit={(id) => router.push(`/articles/edit/${id}`)}
+          onDelete={(id) => {
+            if (confirm("Are you sure you want to delete this article?")) {
+              removeArticle(id);
+            }
+          }}
+        />
+      </div>
+    </>
   );
 }

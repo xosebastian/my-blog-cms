@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import ArticleList from "@/components/article-list";
 import { fetchAuthorArticles } from "@/lib/articles/fetch-author-articles";
 import { Button } from "@/components/ui/button";
+import Head from "next/head";
 
 /**
  * Page to display a paginated list of articles written by a specific author.
@@ -59,25 +60,37 @@ export default function AuthorArticlesPage() {
   }
 
   return (
-    <div className="space-y-8">
-      {data?.author && (
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold">Articles by {data.author.name}</h1>
-          <p className="text-muted-foreground">
-            {data.author.articleCount}{" "}
-            {data.author.articleCount === 1 ? "article" : "articles"} published
-          </p>
-        </div>
-      )}
+    <>
+      <Head>
+        <title>Articles by {data?.author?.name}</title>
+        <meta
+          name="description"
+          content={`Articles written by ${data?.author?.name}`}
+        />
+      </Head>
+      <div className="space-y-8">
+        {data?.author && (
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold">
+              Articles by {data.author.name}
+            </h1>
+            <p className="text-muted-foreground">
+              {data.author.articleCount}{" "}
+              {data.author.articleCount === 1 ? "article" : "articles"}{" "}
+              published
+            </p>
+          </div>
+        )}
 
-      <ArticleList
-        articles={data?.articles || []}
-        totalPages={data?.totalPages || 1}
-        currentPage={data?.currentPage || 1}
-        onPageChange={handlePageChange}
-        showAuthor={false}
-        title=""
-      />
-    </div>
+        <ArticleList
+          articles={data?.articles || []}
+          totalPages={data?.totalPages || 1}
+          currentPage={data?.currentPage || 1}
+          onPageChange={handlePageChange}
+          showAuthor={false}
+          title=""
+        />
+      </div>
+    </>
   );
 }

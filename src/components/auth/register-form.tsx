@@ -50,12 +50,16 @@ export function RegisterForm() {
         const session = await authClient.getSession();
 
         if (!session?.data?.user) {
-          throw new SignUpFailedError('Signup failed. Please try again.');
+          throw new SignUpFailedError("Signup failed. Please try again.");
         }
 
         return res;
       } catch (error) {
-        throw new SignUpFailedError(error instanceof Error ? error.message : "Unknown error during signup.");
+        throw new SignUpFailedError(
+          error instanceof Error
+            ? error.message
+            : "Unknown error during signup."
+        );
       }
     },
     onSuccess: () => {

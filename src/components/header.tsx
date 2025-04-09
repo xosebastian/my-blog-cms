@@ -13,23 +13,22 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { Search } from "lucide-react";
-import { authClient } from "@/lib/auth-client"; // Importing authClient for handling session
+import { authClient } from "@/lib/auth-client";
 import { User } from "better-auth";
 
 export default function Header() {
   const router = useRouter();
-  const [user, setUser] = useState<User | null>(null); // State to store user session
+  const [user, setUser] = useState<User | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Fetching the current user session
   useEffect(() => {
     const getUserSession = async () => {
       try {
         const session = await authClient.getSession();
-        setUser(session?.data?.user || null); // Set user if exists
+        setUser(session?.data?.user || null);
       } catch (err) {
         console.error("Error fetching user session", err);
-        setUser(null); // If there's an error, no user is logged in
+        setUser(null);
       }
     };
 
@@ -45,9 +44,9 @@ export default function Header() {
 
   const handleLogout = async () => {
     try {
-      await authClient.signOut(); // Logout user
-      setUser(null); // Clear user from state
-      router.push("/"); // Redirect to homepage after logout
+      await authClient.signOut();
+      setUser(null);
+      router.push("/");
     } catch (err) {
       console.error("Error logging out", err);
     }

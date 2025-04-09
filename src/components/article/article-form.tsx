@@ -1,25 +1,25 @@
-'use client'
+"use client";
 
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { ArticleFormData, articleSchema } from '@/schemas/article-schema'
-import { Button } from '@/components/ui/button'
-import { CardContent, CardFooter } from '@/components/ui/card'
-import { FormField } from '@/components/form-field'
-import { Label } from '@/components/ui/label'
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ArticleFormData, articleSchema } from "@/schemas/article-schema";
+import { Button } from "@/components/ui/button";
+import { CardContent, CardFooter } from "@/components/ui/card";
+import { FormField } from "@/components/form-field";
+import { Label } from "@/components/ui/label";
 
 type Props = {
-  onSubmit: (data: ArticleFormData) => void
-  defaultValues?: ArticleFormData
-  isSubmitting?: boolean
-  submitLabel?: string
-}
+  onSubmit: (data: ArticleFormData) => void;
+  defaultValues?: ArticleFormData;
+  isSubmitting?: boolean;
+  submitLabel?: string;
+};
 
 export function ArticleForm({
   onSubmit,
   defaultValues,
   isSubmitting = false,
-  submitLabel = 'Publish Article',
+  submitLabel = "Publish Article",
 }: Props) {
   const {
     register,
@@ -28,7 +28,7 @@ export function ArticleForm({
   } = useForm<ArticleFormData>({
     resolver: zodResolver(articleSchema),
     defaultValues,
-  })
+  });
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -45,12 +45,14 @@ export function ArticleForm({
           <Label htmlFor="content">Content</Label>
           <textarea
             id="content"
-            {...register('content')}
+            {...register("content")}
             placeholder="Write the content of your article"
             className="w-full p-2 border rounded-md"
             rows={6}
           />
-          {errors.content && <p className="text-sm text-red-500">{errors.content.message}</p>}
+          {errors.content && (
+            <p className="text-sm text-red-500">{errors.content.message}</p>
+          )}
         </div>
 
         <FormField
@@ -64,9 +66,9 @@ export function ArticleForm({
 
       <CardFooter className="flex justify-end space-x-4">
         <Button type="submit" className="w-32" disabled={isSubmitting}>
-          {isSubmitting ? 'Saving...' : submitLabel}
+          {isSubmitting ? "Saving..." : submitLabel}
         </Button>
       </CardFooter>
     </form>
-  )
+  );
 }

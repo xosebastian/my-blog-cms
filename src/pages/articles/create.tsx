@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import Head from 'next/head'
 
 /**
  * Page to create a new article.
@@ -34,6 +35,11 @@ export default function CreateArticle() {
   })
 
   return (
+    <>
+    <Head>
+      <title>Create New Article</title>
+      <meta name="description" content="Create a new article for your blog." />
+    </Head>
     <div className="mx-auto max-w-3xl pt-12">
       <Card>
         <CardHeader>
@@ -48,5 +54,6 @@ export default function CreateArticle() {
         />
       </Card>
     </div>
+    </>
   )
 }
