@@ -1,6 +1,3 @@
-
-
-```markdown
 # My Blog CMS
 
 My Blog CMS is a content management system (CMS) that allows users to create, edit, and manage articles. This project is built using **Next.js**, **React**, **MongoDB**, and **BetterAuth** for user authentication.
