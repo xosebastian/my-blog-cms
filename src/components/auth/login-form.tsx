@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/card";
 import { FormField } from "../form-field";
 import { LoginFailedError } from "@/errors/login-failed-error";
+import Link from "next/link";
 
 export function LoginForm() {
   const router = useRouter();
@@ -38,7 +39,7 @@ export function LoginForm() {
     const session = await authClient.getSession();
 
     if (!session?.data?.user) {
-      throw new LoginFailedError('Invalid email or password')
+      throw new LoginFailedError("Invalid email or password");
     }
   }, []);
 
@@ -90,9 +91,9 @@ export function LoginForm() {
 
           <p className="text-center text-sm text-muted-foreground">
             Don’t have an account?{" "}
-            <a href="/auth/register" className="text-primary hover:underline">
+            <Link href="auth/register" className="text-primary hover:underline">
               Sign up
-            </a>
+            </Link>
           </p>
         </CardFooter>
       </form>
