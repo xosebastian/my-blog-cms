@@ -28,8 +28,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(400).json({ error: "Author ID is required and must be a string" });
       }
 
-      console.log("Author ID:", authorId);
-
       // Get page and limit from query params with defaults
       const { page = 1, limit = 10 } = req.query;
       const currentPage = parseInt(page as string, 10) || 1;
@@ -49,7 +47,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const articles = await db
         .collection("articles")
         .find({ authorId: authorId }) // Filter articles by authorId
-        .sort({ createdAt: -1 }) // Sort articles by creation date, most recent first
+        .sort({ createdAt: -1 }) // Sort articles by creation date, most recent first (this guarantees consistent ordering)
         .skip(skip) // Skip the number of articles based on the page
         .limit(pageLimit) // Limit the number of articles fetched per page
         .toArray();
