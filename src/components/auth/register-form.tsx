@@ -18,20 +18,23 @@ import {
 } from "@/components/ui/card";
 import { RegisterFormData, registerSchema } from "@/schemas/register-schema";
 import { FormField } from "../form-field";
-
 import Link from "next/link";
 import { generateAvatar } from "@/lib/avatar-service";
 import { SignUpFailedError } from "@/errors/signup-failed-error";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export function RegisterForm() {
   const router = useRouter();
-
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
+    defaultValues: {
+      recaptcha: "",
+    },
   });
 
   const signUp = useMutation({
@@ -40,11 +43,18 @@ export function RegisterForm() {
       const generatedAvatar = generateAvatar(name);
 
       try {
+        const recaptchaValue = data.recaptcha;
+
         const res = await authClient.signUp.email({
           name,
           email,
           password,
           image: generatedAvatar,
+          fetchOptions: {
+            headers: {
+              "x-captcha-response": recaptchaValue,
+            },
+          },
         });
 
         const session = await authClient.getSession();
@@ -66,10 +76,17 @@ export function RegisterForm() {
       toast.success("Account created successfully!");
       router.push("/");
     },
-    onError: () => {
+    onError: (error) => {
+      console.error(error.message || "Registration failed");
       toast.error("Registration failed. Email may already be in use.");
     },
   });
+
+  const handleRecaptchaChange = (value: string | null) => {
+    setValue("recaptcha", value || "", { shouldValidate: true });
+  };
+
+  console.log(errors);
 
   return (
     <Card className="w-full max-w-md">
@@ -112,6 +129,16 @@ export function RegisterForm() {
             register={register}
             error={errors.confirmPassword?.message}
           />
+
+          <div className="space-y-2">
+            <ReCAPTCHA
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
+              onChange={handleRecaptchaChange}
+            />
+            {errors.recaptcha && (
+              <p className="text-sm text-red-500">{errors.recaptcha.message}</p>
+            )}
+          </div>
         </CardContent>
         <CardFooter className="flex flex-col space-y-4">
           <Button

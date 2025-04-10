@@ -4,6 +4,7 @@ import { getMongoDB } from './mongo'
 import { NextApiRequest } from 'next'
 import { UnauthorizedError } from '@/errors/unauthorized-error'
 import { nextCookies } from "better-auth/next-js";
+import { captcha } from "better-auth/plugins";
 
 type BetterAuthInstance = ReturnType<typeof betterAuth>
 
@@ -34,7 +35,15 @@ export async function getServerAuth(): Promise<BetterAuthInstance> {
       enabled: true,
       requireEmailVerification: false,
     },
-    plugins: [nextCookies()] 
+    plugins: [nextCookies(),
+    captcha({
+      provider: "google-recaptcha",
+      secretKey: process.env.RECAPTCHA_SECRET_KEY!,
+      endpoints: [
+        "auth/register",
+      ]
+    }),
+    ]
   })
 
   return betterAuthServerInstance
@@ -47,14 +56,14 @@ export async function getServerAuth(): Promise<BetterAuthInstance> {
  * @returns {Promise<SessionUser>} The authenticated user from the session.
  * @throws {Error} If the user is not authenticated (Unauthorized).
  */
-export async function verifyAuth(req: NextApiRequest) : Promise<User> {
+export async function verifyAuth(req: NextApiRequest): Promise<User> {
   const auth = await getServerAuth()
 
   // Convert req.headers (IncomingHttpHeaders) to Headers for better-auth
   const headers = new Headers(req.headers as Record<string, string>)
 
   const session = await auth.api.getSession({ headers })
-  
+
   if (!session?.user) {
     throw new UnauthorizedError('Unauthorized: User not logged in or session expired')
   }
