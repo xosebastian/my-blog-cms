@@ -47,7 +47,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const articles = await db
         .collection("articles")
         .find({ authorId: authorId }) // Filter articles by authorId
-        .sort({ createdAt: -1 }) // Sort articles by creation date, most recent first (this guarantees consistent ordering)
+        .sort({ name: 1 }) // Sort articles by name, most recent first (this guarantees consistent ordering)
         .skip(skip) // Skip the number of articles based on the page
         .limit(pageLimit) // Limit the number of articles fetched per page
         .toArray();
