@@ -86,8 +86,6 @@ export function RegisterForm() {
     setValue("recaptcha", value || "", { shouldValidate: true });
   };
 
-  console.log(errors);
-
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
